@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from "react";
+import "./Select.scss";
 
 interface Option {
   label: string;

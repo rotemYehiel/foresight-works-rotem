@@ -1,0 +1,52 @@
+@import "../colors";
+
+form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  background-color: $primary-color;
+  color: $label-color;
+  width: 400px;
+  height: 330px;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  position: relative;
+
+  input {
+    background-color: $secondary-color;
+    color: $third-color;
+    border-radius: 0.2rem;
+  }
+
+  .submit-button {
+    position: absolute;
+    bottom: 2rem;
+  }
+
+  .custom-input {
+    position: relative;
+
+    label {
+      margin-right: 0.2rem;
+    }
+
+    .error {
+      position: absolute;
+      bottom: -0.1rem;
+      color: $error-color;
+    }
+  }
+
+  .select-wrapper {
+    position: relative;
+    .error {
+      position: absolute;
+      bottom: -0.1rem;
+      color: $error-color;
+    }
+  }
+}
+
+form > :not(:last-child) {
+  padding-bottom: 1.1rem;
+}

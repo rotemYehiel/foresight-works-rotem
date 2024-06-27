@@ -1,0 +1,33 @@
+@import "./Colors";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  appearance: none;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  border-radius: 0.2rem;
+  color: $primary-color;
+  background-color: $button-color;
+
+  &:hover {
+    cursor: pointer;
+    color: $button-color;
+    background-color: $primary-color;
+  }
+}
+
+p {
+  margin: 0;
+  line-height: 1;
+}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Select from "./Select";
+import "./Form.scss";
 
 interface CustomInputProps {
   label: string;
@@ -15,14 +16,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
   error,
 }) => {
   return (
-    <div>
+    <div className="custom-input">
       <label>{label}</label>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   );
 };
@@ -107,18 +108,22 @@ const Form: React.FC = () => {
         onChange={(value) => setEmail(value)}
         error={emailError}
       />
-      <Select
-        options={options}
-        isMultiple={isMultipleSelect}
-        placeholder="Select options"
-        onSelect={handleSelect}
-        initialValue={selectedOptions}
-      />
-      {selectedOptionsError && (
-        <p style={{ color: "red" }}>{selectedOptionsError}</p>
-      )}
+      <div className="select-wrapper">
+        <Select
+          options={options}
+          isMultiple={isMultipleSelect}
+          placeholder="Select options"
+          onSelect={handleSelect}
+          initialValue={selectedOptions}
+        />
+        {selectedOptionsError && (
+          <p className="error">{selectedOptionsError}</p>
+        )}
+      </div>
 
-      <button type="submit">Submit</button>
+      <button className="submit-button" type="submit">
+        Submit
+      </button>
     </form>
   );
 };

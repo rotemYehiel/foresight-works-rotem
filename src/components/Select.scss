@@ -1,3 +1,5 @@
+@import "../colors";
+
 .select-container {
   position: relative;
   width: 200px;
@@ -5,10 +7,10 @@
 }
 
 .select-header {
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 0.625rem;
+  border-radius: 0.2rem;
   cursor: pointer;
-  background-color: #fff;
+  background-color: $secondary-color;
   display: flex;
   justify-content: space-between;
 }
@@ -16,8 +18,11 @@
 .select-dropdown {
   position: absolute;
   width: 100%;
-  border: 1px solid #ccc;
-  background-color: #fff;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0.2rem;
+  border-bottom-right-radius: 0.2rem;
+  background-color: $secondary-color;
   z-index: 1000;
   max-height: 200px;
   overflow-y: auto;
@@ -26,14 +31,12 @@
 .select-all {
   display: flex;
   justify-content: space-between;
-  padding: 5px;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ccc;
+  padding: 0.313rem;
+  background-color: $secondary-color;
 }
 
 .select-filter {
-  padding: 5px;
-  border-bottom: 1px solid #ccc;
+  padding: 0.313rem;
 }
 
 .select-options {
@@ -42,12 +45,15 @@
 }
 
 .option {
-  padding: 10px;
-  border-bottom: 1px solid #f1f1f1;
+  padding: 0.625rem;
 }
 
 .option label {
   cursor: pointer;
+}
+
+.option input {
+  accent-color: $third-color;
 }
 
 .single-option {
@@ -55,5 +61,5 @@
 }
 
 .single-option.selected {
-  background-color: #e0e0e0;
+  background-color: $secondary-color;
 }
