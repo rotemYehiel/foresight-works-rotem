@@ -44,3 +44,23 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## use select component with multiple select
+to have multiple select on the Select component you need to initialize it as:
+        <Select
+          options={[{ label: "Option 1", value: 1 },{ label: "Option 2", value: 2 }...]}
+          isMultiple={true}
+          placeholder="Some placeholder"
+          initialValue={[] or [1,2]}
+          onSelect={handleSelect}
+        />
+
+## use select component with single select
+to have single select on the Select component you need to initialize it as:
+        <Select
+          options={[{ label: "Option 1", value: 1 },{ label: "Option 2", value: 2 }...]}
+          isMultiple={false}
+          placeholder="Some placeholder"
+          initialValue={null or someValue}
+          onSelect={handleSelect}
+        />
