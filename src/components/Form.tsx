@@ -68,7 +68,10 @@ const Form: React.FC = () => {
       setEmailError(null);
     }
 
-    if (!selectedOptions || !selectedOptions?.length) {
+    if (
+      (!isMultipleSelect && !selectedOptions) ||
+      (isMultipleSelect && !selectedOptions?.length)
+    ) {
       setSelectedOptionsError(
         isMultipleSelect
           ? "Please select at list one option"
