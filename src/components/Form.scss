@@ -24,6 +24,8 @@ form {
   }
 
   .custom-input {
+    display: flex;
+    align-items: center;
     position: relative;
 
     label {
