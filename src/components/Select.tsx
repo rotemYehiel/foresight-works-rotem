@@ -103,7 +103,10 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <div className="select-container" ref={containerRef}>
-      <div className="select-header" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className={`select-header ${isOpen ? "open-mode" : ""}`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         {isMultiple
           ? selected.length
             ? `${selected} selected`

@@ -15,13 +15,14 @@
   justify-content: space-between;
 }
 
+.select-header.open-mode {
+  border-radius: 0.2rem 0.2rem 0 0;
+}
+
 .select-dropdown {
   position: absolute;
   width: 100%;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 0.2rem;
-  border-bottom-right-radius: 0.2rem;
+  border-radius: 0 0 0.2rem 0.2rem;
   background-color: $secondary-color;
   z-index: 1000;
   max-height: 200px;
