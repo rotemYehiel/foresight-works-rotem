@@ -1,27 +1,29 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
-interface Option {
+interface Option<T> {
   label: string;
-  value: any;
+  value: NonNullable<T>;
 }
 
-interface SelectProps {
-  options: Option[];
+interface SelectProps<T> {
+  options: Option<T>[];
   isMultiple?: boolean;
   placeholder?: string;
-  initialValue?: any;
-  onSelect: (selected: any) => void;
+  initialValue?: NonNullable<T> | NonNullable<T>[] | null;
+  onSelect: (selected: NonNullable<T> | NonNullable<T>[]) => void;
 }
 
-const Select: React.FC<SelectProps> = ({
+const Select = <T,>({
   options,
   isMultiple = false,
   placeholder = "Select...",
-  initialValue = isMultiple ? [] : null,
+  initialValue,
   onSelect,
-}) => {
+}: SelectProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<any>(initialValue);
+  const [selected, setSelected] = useState<
+    NonNullable<T> | NonNullable<T>[] | null
+  >(initialValue || (isMultiple ? [] : null));
   const [filter, setFilter] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const isChanged = useRef<boolean>(false);
@@ -42,16 +44,18 @@ const Select: React.FC<SelectProps> = ({
   }, [containerRef]);
 
   useEffect(() => {
-    if (isChanged.current) onSelect(selected);
+    if (isChanged.current)
+      onSelect(selected as NonNullable<T> | NonNullable<T>[]);
   }, [selected]);
 
-  const handleSelect = (value: any) => {
+  const handleSelect = (value: NonNullable<T>) => {
     if (isMultiple) {
-      if (selected.includes(value)) {
-        setSelected(selected.filter((item: any) => item !== value));
+      const newArray = Array.isArray(selected) ? [...selected] : [];
+      if (newArray.includes(value)) {
+        setSelected(newArray.filter((item) => item !== value));
         isChanged.current = true;
       } else {
-        setSelected([...selected, value]);
+        setSelected([...newArray, value]);
         isChanged.current = true;
       }
     } else {
@@ -67,22 +71,23 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const handleDeselectAll = () => {
-    setSelected([]);
+    setSelected(isMultiple ? [] : null);
     isChanged.current = true;
   };
 
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(filter.toLowerCase())
   );
-
   const renderOptions = () =>
     filteredOptions.map((option) => (
-      <div key={option.value} className="option">
+      <div key={option.value.toString()} className="option">
         {isMultiple ? (
           <label>
             <input
               type="checkbox"
-              checked={selected.includes(option.value)}
+              checked={
+                Array.isArray(selected) && selected.includes(option.value)
+              }
               onChange={() => handleSelect(option.value)}
             />
             {option.label}
@@ -104,8 +109,8 @@ const Select: React.FC<SelectProps> = ({
     <div className="select-container" ref={containerRef}>
       <div className="select-header" onClick={() => setIsOpen(!isOpen)}>
         {isMultiple
-          ? selected.length
-            ? `${selected} selected`
+          ? (selected as T[]).length
+            ? `${(selected as T[]).length} selected`
             : placeholder
           : options.find((option) => option.value === selected)?.label ||
             placeholder}

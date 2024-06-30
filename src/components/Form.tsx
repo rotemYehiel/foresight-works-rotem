@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Select from "./Select";
 
+interface Option {
+  label: string;
+  value: number;
+}
 interface CustomInputProps {
   label: string;
   value: string;
@@ -30,7 +34,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
 const Form: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState<any>([1, 2]);
+  const [selectedOptions, setSelectedOptions] = useState<number[] | null>([
+    1, 2,
+  ]);
   const [nameError, setNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [selectedOptionsError, setSelectedOptionsError] = useState<
@@ -39,7 +45,7 @@ const Form: React.FC = () => {
 
   const isMultipleSelect: boolean = true;
 
-  const options = [
+  const options: Option[] = [
     { label: "Option 1", value: 1 },
     { label: "Option 2", value: 2 },
     { label: "Option 3", value: 3 },
@@ -53,6 +59,7 @@ const Form: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!name || name.length > 20) {
       setNameError("Name is required and must be less than 20 characters");
       return;
@@ -113,7 +120,7 @@ const Form: React.FC = () => {
       <Select
         options={options}
         isMultiple={isMultipleSelect}
-        placeholder="Select options"
+        placeholder={isMultipleSelect ? "Select options" : "Select option"}
         onSelect={handleSelect}
         initialValue={selectedOptions}
       />
