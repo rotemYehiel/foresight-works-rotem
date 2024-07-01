@@ -65,12 +65,16 @@ const Select = <T,>({
     }
   };
 
-  const handleSelectAll = () => {
+  const handleSelectAll = (ev: React.MouseEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+
     setSelected(options.map((option) => option.value));
     isChanged.current = true;
   };
 
-  const handleDeselectAll = () => {
+  const handleDeselectAll = (ev: React.MouseEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+
     setSelected(isMultiple ? [] : null);
     isChanged.current = true;
   };
