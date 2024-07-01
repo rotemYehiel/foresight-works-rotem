@@ -8,24 +8,22 @@ interface Option {
 interface CustomInputProps {
   label: string;
   value: string;
-  onChange: (value: string) => void;
+  name: string;
+  onChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string | null;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
   label,
   value,
+  name,
   onChange,
   error,
 }) => {
   return (
     <div>
       <label>{label}</label>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
+      <input type="text" value={value} name={name} onChange={onChange} />
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
@@ -57,22 +55,8 @@ const Form: React.FC = () => {
     alert(`Selected: ${JSON.stringify(selected)}`);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!name || name.length > 20) {
-      setNameError("Name is required and must be less than 20 characters");
-      return;
-    } else {
-      setNameError(null);
-    }
-
-    if (!email || !validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
-      return;
-    } else {
-      setEmailError(null);
-    }
+  const handleSubmit = (ev: React.FormEvent) => {
+    ev.preventDefault();
 
     if (
       (!isMultipleSelect && !selectedOptions) ||
@@ -83,12 +67,17 @@ const Form: React.FC = () => {
           ? "Please select at list one option"
           : "Please select one option"
       );
+
       return;
     } else {
       setSelectedOptionsError(null);
     }
 
-    console.log({ name, email, selectedOptions });
+    if (!name || nameError || !email || emailError) {
+      return;
+    }
+
+    console.log("submit", { name, email, selectedOptions });
   };
 
   const validateEmail = (email: string): boolean => {
@@ -96,25 +85,44 @@ const Form: React.FC = () => {
     return regex.test(email);
   };
 
+  const handelOnChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = ev.target;
+
+    switch (name) {
+      case "name":
+        setName(value);
+        value.length > 20
+          ? setNameError("Name must be less than 20 characters")
+          : setNameError(null);
+
+        break;
+      case "email":
+        setEmail(value);
+        !validateEmail(value)
+          ? setEmailError("Please enter a valid email address")
+          : setEmailError(null);
+
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <CustomInput
         label="Name"
         value={name}
-        onChange={(value) => {
-          setName(value);
-          if (value.length > 20) {
-            setNameError("Name must be less than 20 characters");
-          } else {
-            setNameError(null);
-          }
-        }}
+        name="name"
+        onChange={handelOnChange}
         error={nameError}
       />
       <CustomInput
         label="Email"
         value={email}
-        onChange={(value) => setEmail(value)}
+        name="email"
+        onChange={handelOnChange}
         error={emailError}
       />
       <Select
