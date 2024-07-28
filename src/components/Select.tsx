@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import SelectOption, { Option } from "./SelectOption";
+import "./Select.scss";
 
 interface SelectProps<T> {
   options: Option<T>[];
@@ -84,7 +85,10 @@ const Select = <T,>({
 
   return (
     <div className="select-container" ref={containerRef}>
-      <div className="select-header" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className={`select-header ${isOpen ? "open-mode" : ""}`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         {isMultiple
           ? (selected as T[]).length
             ? `${(selected as T[]).length} selected`

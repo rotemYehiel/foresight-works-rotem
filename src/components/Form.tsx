@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import Select from "./Select";
+import "./Form.scss";
 
 const options: Option[] = [
   { label: "Option 1", value: 1 },
@@ -28,10 +29,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
   error,
 }) => {
   return (
-    <div>
+    <div className="custom-input">
       <label>{label}</label>
       <input type="text" value={value} name={name} onChange={onChange} />
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   );
 };
@@ -134,18 +135,22 @@ const Form: React.FC = () => {
         onChange={handelOnChange}
         error={emailError}
       />
-      <Select
-        options={options}
-        isMultiple={isMultipleSelect}
-        placeholder={isMultipleSelect ? "Select options" : "Select option"}
-        onSelect={handleSelect}
-        initialValue={selectedOptions}
-      />
-      {selectedOptionsError && (
-        <p style={{ color: "red" }}>{selectedOptionsError}</p>
-      )}
+      <div className="select-wrapper">
+        <Select
+          options={options}
+          isMultiple={isMultipleSelect}
+          placeholder={isMultipleSelect ? "Select options" : "Select option"}
+          onSelect={handleSelect}
+          initialValue={selectedOptions}
+        />
+        {selectedOptionsError && (
+          <p className="error">{selectedOptionsError}</p>
+        )}
+      </div>
 
-      <button type="submit">Submit</button>
+      <button className="submit-button" type="submit">
+        Submit
+      </button>
     </form>
   );
 };

@@ -1,5 +1,5 @@
-import "./App.css";
 import Form from "./components/Form";
+import "./App.scss";
 
 const App: React.FC = () => {
   return (
