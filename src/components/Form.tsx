@@ -1,5 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Select from "./Select";
+
+const options: Option[] = [
+  { label: "Option 1", value: 1 },
+  { label: "Option 2", value: 2 },
+  { label: "Option 3", value: 3 },
+  { label: "Option 4", value: 4 },
+];
 
 interface Option {
   label: string;
@@ -32,35 +39,34 @@ const CustomInput: React.FC<CustomInputProps> = ({
 const Form: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState<number[] | null>([
-    1, 2,
-  ]);
+  const [selectedOptions, setSelectedOptions] = useState<
+    number[] | number | null
+  >(null);
+
   const [nameError, setNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [selectedOptionsError, setSelectedOptionsError] = useState<
     string | null
   >(null);
 
-  const isMultipleSelect: boolean = true;
+  const isMultipleSelect: boolean = false;
 
-  const options: Option[] = [
-    { label: "Option 1", value: 1 },
-    { label: "Option 2", value: 2 },
-    { label: "Option 3", value: 3 },
-    { label: "Option 4", value: 4 },
-  ];
-
-  const handleSelect = (selected: any) => {
+  const handleSelect = useCallback((selected: any) => {
     setSelectedOptions(selected);
     alert(`Selected: ${JSON.stringify(selected)}`);
-  };
+  }, []);
 
   const handleSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
 
+    console.log({ isMultipleSelect, selectedOptions });
+
     if (
-      (!isMultipleSelect && !selectedOptions) ||
-      (isMultipleSelect && !selectedOptions?.length)
+      (isMultipleSelect &&
+        Array.isArray(selectedOptions) &&
+        selectedOptions.length === 0) ||
+      (isMultipleSelect && !selectedOptions) ||
+      (!isMultipleSelect && selectedOptions === null)
     ) {
       setSelectedOptionsError(
         isMultipleSelect
@@ -85,29 +91,32 @@ const Form: React.FC = () => {
     return regex.test(email);
   };
 
-  const handelOnChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = ev.target;
+  const handelOnChange = useCallback(
+    (ev: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = ev.target;
 
-    switch (name) {
-      case "name":
-        setName(value);
-        value.length > 20
-          ? setNameError("Name must be less than 20 characters")
-          : setNameError(null);
+      switch (name) {
+        case "name":
+          setName(value);
+          value.length > 20
+            ? setNameError("Name must be less than 20 characters")
+            : setNameError(null);
 
-        break;
-      case "email":
-        setEmail(value);
-        !validateEmail(value)
-          ? setEmailError("Please enter a valid email address")
-          : setEmailError(null);
+          break;
+        case "email":
+          setEmail(value);
+          !validateEmail(value)
+            ? setEmailError("Please enter a valid email address")
+            : setEmailError(null);
 
-        break;
+          break;
 
-      default:
-        break;
-    }
-  };
+        default:
+          break;
+      }
+    },
+    [name, email]
+  );
 
   return (
     <form onSubmit={handleSubmit}>
