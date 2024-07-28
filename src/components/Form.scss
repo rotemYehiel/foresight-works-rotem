@@ -37,6 +37,10 @@ form {
       bottom: -0.1rem;
       color: $error-color;
     }
+
+    input {
+      height: 100%;
+    }
   }
 
   .select-wrapper {
